@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div th:fragment="menu">
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Brand</a>
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Link</a></li>
+<nav class="navbar navbar-inverse" th:fragment="menu">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul sec:authorize="isAuthenticated()" class="nav navbar-nav">
+                <li class="active"><a href="/journal/list">Journals <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="!isAuthenticated()" >
+                    <a href="/login">Sign In</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ><span sec:authentication="name">Username</span><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/account">Account</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="javascript: document.logoutForm.submit()" role="menuitem"> Sign out</a></li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li th:if="${#authorization.expression('!isAuthenticated()')}" >
-                            <a href="/login">Sign In</a>
-                        </li>
-                        <li th:if="${#authorization.expression('isAuthenticated()')}" class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">!!!!Username <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Account</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="/logout" th:href="@{/logout}">Sign out</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
-    </div>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden="hidden" type="submit" value="Sign Out"/>
+    </form>
+</nav>
 </body>
 </html>

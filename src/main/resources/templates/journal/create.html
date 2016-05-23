@@ -1,0 +1,27 @@
+<!-- Modal  Add remove fragment template-->
+<div th:fragment="create-modal" class="modal fade" id="createModal" role="dialog">
+    <!-- Add create fragment template -->
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body" ng-controller="UploadFileController as uploadFileCrtl">
+                <form action="/service/file" method="post" enctype="multipart/form-data" id="uploadFileForm">
+                    <input type="text" class="form-control" placeholder="Title"/>
+                    <br/>
+                    <textarea class="form-control" rows="3" placeholder="Description"></textarea>
+                    <br/>
+                    <input type="file" file-model="file"/>
+                    <!--input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/ -->
+                    <hr/>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="uploadFileCrtl.uploadFile()" >Create</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
